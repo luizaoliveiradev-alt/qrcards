@@ -3,7 +3,7 @@ Aplicação web em Vanilla JS/CSS3 para sorteio aleatório de cartas com suporte
 
 # 🃏 QR CARDS - Cartas Interativas com Vídeo
 
-O **QR CARDS** é uma aplicação web interativa desenvolvida para sortear aleatoriamente comandos em um jogo de cartas. O diferencial desta versão é o uso de **vídeos animados em looping/execução automática (MP4)** no lugar de artes estáticas, proporcionando uma experiência imersiva e dinâmica para os jogadores.
+O **QR CARDS** é uma aplicação web interativa desenvolvida para sortear aleatoriamente comandos em um jogo de cartas.
 
 ![Preview do Projeto](https://img.shields.io/badge/Status-Concluído-brightgreen)
 ![License](https://img.shields.io/badge/Licença-MIT-blue)
