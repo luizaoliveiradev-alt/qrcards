@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>QR CARDS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none}
+body,html{width:100%;height:100%;overflow:hidden;background-color:#000;font-family:'Figtree',sans-serif;display:flex;justify-content:center;align-items:center}
+#app{width:100%;height:100%;display:flex;justify-content:center;align-items:center;padding:16px}
+.card-container{position:relative;width:100%;max-width:380px;aspect-ratio:3/5;max-height:85vh;opacity:0;transform:scale(0.95);transition:opacity .6s ease-out,transform .6s ease-out;display:flex;justify-content:center;align-items:center}
+.card-container.visible{opacity:1;transform:scale(1)}
+.card-bg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:1;pointer-events:none}
+.card-content{position:absolute;top:65%;left:50%;transform:translate(-50%,-50%);width:68%;max-width:250px;padding:0 4px;z-index:2;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.card-title{font-family:'Fraunces',serif;font-size:clamp(1.5rem,5.5vw,2.2rem);font-weight:700;margin-bottom:8px;line-height:1.1;text-shadow:0 2px 4px rgba(0,0,0,.8)}
+.card-text{font-family:'Figtree',sans-serif;font-size:clamp(1rem,3.8vw,1.25rem);font-weight:500;line-height:1.3;opacity:.95;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+</style>
+</head>
+<body oncontextmenu="return false;">
+<div id="app">
+  <div id="card" class="card-container">
+    <video id="card-video" class="card-bg" autoplay muted playsinline></video>
+    <div class="card-content">
+      <h1 id="card-title" class="card-title"></h1>
+      <p id="card-text" class="card-text"></p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const cards = [
+    {title:"Ataque!", text:"Escolha um jogador para comprar 5 cartas.", video:"https://i.imgur.com/jOMmcQR.mp4"},
+    {title:"Sorte", text:"Todos compram uma carta, menos você.", video:"https://i.imgur.com/etvVjrk.mp4"},
+    {title:"Extra", text:"Jogue novamente.", video:"https://i.imgur.com/g9aWhHG.mp4"},
+    {title:"Bloqueio", text:"Pule a vez de um jogador.", video:"https://i.imgur.com/JVFgjf2.mp4"},
+    {title:"Troca", text:"Troque de mão com o jogador à esquerda.", video:"https://i.imgur.com/ie9bnzL.mp4"},
+    {title:"Silêncio", text:"Fique em silêncio até sua próxima rodada.", video:"https://i.imgur.com/TQIce7m.mp4"},
+    {title:"Humor", text:"Conte uma piada para poder jogar novamente.", video:"https://i.imgur.com/xVTEevm.mp4"},
+    {title:"Punição", text:"Compre 5 cartas.", video:"https://i.imgur.com/8kd4CGz.mp4"},
+    {title:"Confusão", text:"Escolha dois jogadores para trocarem de mão.", video:"https://i.imgur.com/MjNaHV1.mp4"},
+    {title:"Dança das cadeiras", text:"Todos mudam de lugar na mesa.", video:"https://i.imgur.com/UPv8qSe.mp4"}
+  ];
+
+  function drawCard(){
+    const randomIndex = Math.floor(Math.random() * cards.length);
+    const selected = cards[randomIndex];
+    
+    const cardEl = document.getElementById('card');
+    const videoEl = document.getElementById('card-video');
+    const titleEl = document.getElementById('card-title');
+    const textEl = document.getElementById('card-text');
+    
+    videoEl.src = selected.video;
+    titleEl.textContent = selected.title;
+    textEl.textContent = selected.text;
+    
+    // Tenta reproduzir o vídeo explicitamente (reforço para autoplay em dispositivos móveis)
+    videoEl.play().catch(err => console.log('Autoplay prevenido pelo navegador:', err));
+
+    requestAnimationFrame(()=>{
+      cardEl.classList.add('visible');
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', drawCard);
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    if(e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83 || e.keyCode === 80))){
+      e.preventDefault();
+      return false;
+    }
+  });
+  document.addEventListener('keyup', e => {
+    if(e.key === 'PrintScreen'){
+      navigator.clipboard.writeText('');
+    }
+  });
+})();
+</script>
+</body>
+</html>
